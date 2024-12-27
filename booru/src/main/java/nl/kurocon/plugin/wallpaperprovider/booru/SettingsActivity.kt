@@ -1,4 +1,4 @@
-package tv.projectivy.plugin.wallpaperprovider.sample
+package nl.kurocon.plugin.wallpaperprovider.booru
 
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity

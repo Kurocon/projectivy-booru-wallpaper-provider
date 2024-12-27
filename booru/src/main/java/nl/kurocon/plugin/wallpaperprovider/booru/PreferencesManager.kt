@@ -1,4 +1,4 @@
-package tv.projectivy.plugin.wallpaperprovider.sample
+package nl.kurocon.plugin.wallpaperprovider.booru
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -9,7 +9,11 @@ import com.google.gson.ToNumberPolicy
 import com.google.gson.reflect.TypeToken
 
 object PreferencesManager {
-    private const val IMAGE_URL_KEY = "image_url_key"
+    private const val BOORU_URL_KEY = "booru_url_key"
+    private const val BOORU_TYPE_KEY = "booru_type_key"
+    private const val BOORU_TAG_SEARCH_KEY = "booru_tag_search_key"
+    private const val BOORU_USER_ID_KEY = "booru_user_id_key"
+    private const val BOORU_API_KEY_KEY = "booru_api_key_key"
 
     lateinit var preferences: SharedPreferences
 
@@ -46,9 +50,21 @@ object PreferencesManager {
             else -> throw UnsupportedOperationException("Not yet implemented")
         }
 
-    var imageUrl: String
-        get() = PreferencesManager[IMAGE_URL_KEY, "https://images.pexels.com/photos/462162/pexels-photo-462162.jpeg"]
-        set(value) { PreferencesManager[IMAGE_URL_KEY]=value }
+    var booruUrl: String
+        get () = PreferencesManager[BOORU_URL_KEY, "https://danbooru.donmai.us"]
+        set(value) { PreferencesManager[BOORU_URL_KEY] = value }
+    var booruType: String
+        get () = PreferencesManager[BOORU_TYPE_KEY, "danbooru"]
+        set(value) { PreferencesManager[BOORU_TYPE_KEY] = value }
+    var booruTagSearch: String
+        get () = PreferencesManager[BOORU_TAG_SEARCH_KEY, "ratio:16:9 rating:general order:random"]
+        set(value) { PreferencesManager[BOORU_TAG_SEARCH_KEY] = value }
+    var booruUserId: String
+        get () = PreferencesManager[BOORU_USER_ID_KEY, ""]
+        set(value) { PreferencesManager[BOORU_USER_ID_KEY] = value }
+    var booruApiKey: String
+        get () = PreferencesManager[BOORU_API_KEY_KEY, ""]
+        set(value) { PreferencesManager[BOORU_API_KEY_KEY] = value }
 
     fun export(): String {
         return Gson().toJson(preferences.all)

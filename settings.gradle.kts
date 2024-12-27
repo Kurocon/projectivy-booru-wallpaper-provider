@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Projectivy Wallpaper Provider"
-include(":sample")
+rootProject.name = "Projectivy Booru Wallpaper Provider"
+include(":booru")
 include(":api")
