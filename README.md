@@ -17,7 +17,7 @@ This is a [Projectivy](https://xdaforums.com/t/app-android-tv-projectivy-launche
 - The "Booru Wallpaper Provider" should be available.
 - Configure the plugin via the "Configure" button. The following settings are available:
   - Booru URL: The base URL to the Booru site, including protocol. For example: `https://danbooru.donmai.us`
-  - Booru Type: Only `danbooru`-based boards are currently supported. Support for more types is planned.
+  - Booru Type: The type of Booru software the site is using, see the table below if unsure.
   - Search query: The search query from which images are pulled. This is the same as you would fill in on the imageboard website's search box. Check the help pages of your booru for guidance. (i.e. the [cheatsheet](https://danbooru.donmai.us/wiki_pages/help%3Acheatsheet) for Danbooru) All tag types should work normally (including ordering, ratio, and other metatags).
   - Username and API Key: These are optional. Some boorus have limitations on how many tags can be searched anonymously or by standard users. For example, Danbooru allows 2 tags for logged out and normal users, but 6 for premium accounts. Fill in these fields to authenticate. 
 

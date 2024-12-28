@@ -2,7 +2,7 @@
     <string name="plugin_name">Booru Wallpaper Provider</string>
     <string name="plugin_version">1.1</string>
     <string name="plugin_description">
-        A wallpaper provider that can talk to Booru sites running Danbooru software.
+        A wallpaper provider that can retrieve wallpapers from various Booru-style websites.
     </string>
     <string name="plugin_uuid">893434d0-4901-4ad9-a366-50f93ea2f285</string>
 
