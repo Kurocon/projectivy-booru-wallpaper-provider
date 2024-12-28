@@ -6,6 +6,11 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.leanback.app.GuidedStepSupportFragment
 import androidx.leanback.widget.GuidanceStylist.Guidance
 import androidx.leanback.widget.GuidedAction
+import nl.kurocon.plugin.wallpaperprovider.booru.PreferencesManager.BooruType.Companion.DANBOORU
+import nl.kurocon.plugin.wallpaperprovider.booru.PreferencesManager.BooruType.Companion.GELBOORU
+import nl.kurocon.plugin.wallpaperprovider.booru.PreferencesManager.BooruType.Companion.MOEBOORU
+import nl.kurocon.plugin.wallpaperprovider.booru.PreferencesManager.BooruType.Companion.ZEROCHAN
+import nl.kurocon.plugin.wallpaperprovider.booru.PreferencesManager.BooruType.Companion.WALLHAVEN
 import kotlin.CharSequence
 
 class SettingsFragment : GuidedStepSupportFragment() {
@@ -32,20 +37,50 @@ class SettingsFragment : GuidedStepSupportFragment() {
             .build()
         actions.add(actionBooruUrl)
 
-        // Booru Type setting (choice menu with only Danbooru currently)
-        val booruTypeSubActions: MutableList<GuidedAction> = mutableListOf();
-        val typeDanbooruSubAction = GuidedAction.Builder(context)
-            .id(SUBACTION_ID_BOORU_TYPE_DANBOORU)
-            .title(R.string.setting_booru_type_subtype_danbooru_title)
-            .description(R.string.setting_booru_type_subtype_danbooru_description)
-            .build()
-        booruTypeSubActions.add(typeDanbooruSubAction)
+        // Booru Type subaction list (choice menu)
+        val booruTypeSubActions: MutableList<GuidedAction> = mutableListOf(
+            // Danbooru
+            GuidedAction.Builder(context)
+                .id(SUBACTION_ID_BOORU_TYPE_DANBOORU)
+                .title(R.string.setting_booru_type_subtype_danbooru_title)
+                .description(R.string.setting_booru_type_subtype_danbooru_description)
+                .build(),
 
+            // Moebooru
+            GuidedAction.Builder(context)
+                .id(SUBACTION_ID_BOORU_TYPE_MOEBOORU)
+                .title(R.string.setting_booru_type_subtype_moebooru_title)
+                .description(R.string.setting_booru_type_subtype_moebooru_description)
+                .build(),
+
+            // Gelbooru
+            GuidedAction.Builder(context)
+                .id(SUBACTION_ID_BOORU_TYPE_GELBOORU)
+                .title(R.string.setting_booru_type_subtype_gelbooru_title)
+                .description(R.string.setting_booru_type_subtype_gelbooru_description)
+                .build(),
+
+            // Zerochan
+            GuidedAction.Builder(context)
+                .id(SUBACTION_ID_BOORU_TYPE_ZEROCHAN)
+                .title(R.string.setting_booru_type_subtype_zerochan_title)
+                .description(R.string.setting_booru_type_subtype_zerochan_description)
+                .build(),
+
+            // Wallhaven.cc
+            GuidedAction.Builder(context)
+                .id(SUBACTION_ID_BOORU_TYPE_WALLHAVEN)
+                .title(R.string.setting_booru_type_subtype_wallhaven_title)
+                .description(R.string.setting_booru_type_subtype_wallhaven_description)
+                .build(),
+        );
+
+        // Actual Booru Type choice button with subactions
         val currentBooruType = PreferencesManager.booruType
         val actionBooruType = GuidedAction.Builder(context)
             .id(ACTION_ID_BOORU_TYPE)
             .title(R.string.setting_booru_type_title)
-            .description(currentBooruType)
+            .description(PreferencesManager.getBooruName(currentBooruType))
             .subActions(booruTypeSubActions)
             .build()
         actions.add(actionBooruType)
@@ -104,10 +139,13 @@ class SettingsFragment : GuidedStepSupportFragment() {
 
     override fun onSubGuidedActionClicked(action: GuidedAction): Boolean {
         when (action.id) {
-            SUBACTION_ID_BOORU_TYPE_DANBOORU -> {
-                findActionById(ACTION_ID_BOORU_TYPE)?.description = "danbooru"
+            SUBACTION_ID_BOORU_TYPE_DANBOORU, SUBACTION_ID_BOORU_TYPE_MOEBOORU,
+            SUBACTION_ID_BOORU_TYPE_GELBOORU, SUBACTION_ID_BOORU_TYPE_ZEROCHAN,
+            SUBACTION_ID_BOORU_TYPE_WALLHAVEN -> {
+                val bType = BOORU_TYPE_ACTION_MAP[action.id]!!
+                findActionById(ACTION_ID_BOORU_TYPE)?.description = PreferencesManager.getBooruName(bType)
                 notifyActionChanged(findActionPositionById(ACTION_ID_BOORU_TYPE))
-                PreferencesManager.booruType = "danbooru"
+                PreferencesManager.booruType = bType
             }
         }
         return true
@@ -151,5 +189,17 @@ class SettingsFragment : GuidedStepSupportFragment() {
         private const val ACTION_ID_BOORU_API_KEY = 6L
 
         private const val SUBACTION_ID_BOORU_TYPE_DANBOORU = 7L
+        private const val SUBACTION_ID_BOORU_TYPE_MOEBOORU = 8L
+        private const val SUBACTION_ID_BOORU_TYPE_GELBOORU = 9L
+        private const val SUBACTION_ID_BOORU_TYPE_ZEROCHAN = 10L
+        private const val SUBACTION_ID_BOORU_TYPE_WALLHAVEN = 11L
+
+        private val BOORU_TYPE_ACTION_MAP = mapOf(
+            SUBACTION_ID_BOORU_TYPE_DANBOORU to DANBOORU,
+            SUBACTION_ID_BOORU_TYPE_MOEBOORU to MOEBOORU,
+            SUBACTION_ID_BOORU_TYPE_GELBOORU to GELBOORU,
+            SUBACTION_ID_BOORU_TYPE_ZEROCHAN to ZEROCHAN,
+            SUBACTION_ID_BOORU_TYPE_WALLHAVEN to WALLHAVEN,
+        )
     }
 }

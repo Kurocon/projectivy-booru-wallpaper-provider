@@ -1,5 +1,6 @@
 <resources>
     <string name="plugin_name">Booru Wallpaper Provider</string>
+    <string name="plugin_version">1.1</string>
     <string name="plugin_description">
         A wallpaper provider that can talk to Booru sites running Danbooru software.
     </string>
@@ -8,7 +9,7 @@
     <!-- Setting parameters -->
     <string name="settings">Settings</string>
     <string name="setting_image_url_title">Image URL</string>
-    <string name="setting_booru_url_title">Booru URL - e.g. \'https://danbooru.donmai.us/\'</string>
+    <string name="setting_booru_url_title">Booru URL - e.g. \'https://danbooru.donmai.us\'</string>
     <string name="setting_booru_type_title">Booru Type</string>
     <string name="setting_booru_tag_search_title">Search query - e.g. \'ratio:16:9 rating:general\'</string>
     <string name="setting_booru_user_id_title">Booru Username </string>
@@ -20,5 +21,13 @@
     </string>
 
     <string name="setting_booru_type_subtype_danbooru_title">Danbooru</string>
-    <string name="setting_booru_type_subtype_danbooru_description">Danbooru-based (danbooru.donmai.us) - Currently the only supported type</string>
+    <string name="setting_booru_type_subtype_danbooru_description">Danbooru-based (danbooru.donmai.us)</string>
+    <string name="setting_booru_type_subtype_moebooru_title">Moebooru (Danbooru v1)</string>
+    <string name="setting_booru_type_subtype_moebooru_description">Moebooru-based (konachan.com, yande.re)</string>
+    <string name="setting_booru_type_subtype_gelbooru_title">Gelbooru</string>
+    <string name="setting_booru_type_subtype_gelbooru_description">Gelbooru-based (gelbooru.com)</string>
+    <string name="setting_booru_type_subtype_zerochan_title">Zerochan</string>
+    <string name="setting_booru_type_subtype_zerochan_description">Zerochan-based (zerochan.net, asiachan.com)</string>
+    <string name="setting_booru_type_subtype_wallhaven_title">Wallhaven</string>
+    <string name="setting_booru_type_subtype_wallhaven_description">Wallhaven-based (wallhaven.cc)</string>
 </resources>
