@@ -159,8 +159,12 @@ class BooruAPI(context: Context) {
 
             val responseBody = response.body?.string() ?: throw IOException("Response body is null")
             val jsonBody: JSONObject
+            var jsonArray: JSONArray
             try {
                 jsonBody = JSONObject(responseBody)
+                jsonArray = jsonBody.getJSONArray("post")
+            } catch (je: JSONException) {
+                jsonArray = JSONArray(responseBody)
             } catch (e: Exception) {
                 // gelbooru returns xml response if request was denied for some reason
                 // i.e. user hit a rate limit because he didn't include api key
@@ -169,7 +173,6 @@ class BooruAPI(context: Context) {
 
             // Parse JSON response into BooruImage instances
             val images = mutableListOf<BooruImage>()
-            val jsonArray = jsonBody.getJSONArray("post")
             for (i in 0 until jsonArray.length()) {
                 val jsonObject = jsonArray.getJSONObject(i)
                 val imageUrl = jsonObject.optString("file_url")

@@ -2,16 +2,24 @@ package nl.kurocon.plugin.wallpaperprovider.booru
 
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.leanback.app.GuidedStepSupportFragment
 import androidx.leanback.widget.GuidanceStylist.Guidance
 import androidx.leanback.widget.GuidedAction
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import nl.kurocon.plugin.wallpaperprovider.booru.PreferencesManager.BooruType.Companion.DANBOORU
 import nl.kurocon.plugin.wallpaperprovider.booru.PreferencesManager.BooruType.Companion.GELBOORU
 import nl.kurocon.plugin.wallpaperprovider.booru.PreferencesManager.BooruType.Companion.MOEBOORU
-import nl.kurocon.plugin.wallpaperprovider.booru.PreferencesManager.BooruType.Companion.ZEROCHAN
 import nl.kurocon.plugin.wallpaperprovider.booru.PreferencesManager.BooruType.Companion.WALLHAVEN
-import kotlin.CharSequence
+import nl.kurocon.plugin.wallpaperprovider.booru.PreferencesManager.BooruType.Companion.ZEROCHAN
+import java.io.IOException
+import java.util.concurrent.Executors
 
 class SettingsFragment : GuidedStepSupportFragment() {
     override fun onCreateGuidance(savedInstanceState: Bundle?): Guidance {
@@ -135,6 +143,12 @@ class SettingsFragment : GuidedStepSupportFragment() {
             .descriptionEditable(true)
             .build()
         actions.add(actionBooruApiKey)
+
+        val actionBooruTest = GuidedAction.Builder(context)
+            .id(ACTION_ID_BOORU_TEST)
+            .title(R.string.setting_booru_test_title)
+            .build()
+        actions.add(actionBooruTest)
     }
 
     override fun onSubGuidedActionClicked(action: GuidedAction): Boolean {
@@ -177,6 +191,32 @@ class SettingsFragment : GuidedStepSupportFragment() {
                 notifyActionChanged(findActionPositionById(ACTION_ID_BOORU_API_KEY))
                 PreferencesManager.booruApiKey = params.toString()
             }
+            ACTION_ID_BOORU_TEST -> {
+                try {
+                    val executor = Executors.newSingleThreadExecutor()
+                    val handler = Handler(Looper.getMainLooper())
+                    executor.execute {
+                        val wallpapers = BooruAPI(requireContext()).getImageUrls(1)
+                        handler.post {
+                            Toast.makeText(
+                                requireContext(),
+                                "Successfully fetched ${wallpapers.size} image",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                } catch (e: IOException) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Failed to fetch image: ${e.message}",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -187,6 +227,7 @@ class SettingsFragment : GuidedStepSupportFragment() {
         private const val ACTION_ID_USER_SETTINGS_LABEL = 4L
         private const val ACTION_ID_BOORU_USER_ID = 5L
         private const val ACTION_ID_BOORU_API_KEY = 6L
+        private const val ACTION_ID_BOORU_TEST = 7L
 
         private const val SUBACTION_ID_BOORU_TYPE_DANBOORU = 7L
         private const val SUBACTION_ID_BOORU_TYPE_MOEBOORU = 8L

@@ -14,6 +14,7 @@
     <string name="setting_booru_tag_search_title">Search query - e.g. \'ratio:16:9 rating:general\'</string>
     <string name="setting_booru_user_id_title">Booru Username </string>
     <string name="setting_booru_api_key_title">Booru API Key</string>
+    <string name="setting_booru_test_title">Test settings</string>
 
     <string name="setting_users_title">User settings (optional)</string>
     <string name="setting_users_description">
